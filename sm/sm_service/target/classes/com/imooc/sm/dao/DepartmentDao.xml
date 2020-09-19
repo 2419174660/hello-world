@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.4//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imooc.sm.dao.DepartmentDao">
+    <!--之前在spring里配置过mybatis简写属性，实体类可以用简称-->
+    <resultMap id="resultMap" type="Department">
+        <id property="id" column="id" javaType="Integer"/>
+        <!--主键用id，其他用result-->
+        <result property="name" column="name" javaType="String"/>
+        <result property="address" column="address" javaType="String"/>
+        <!--属性映射关系一一对应-->
+    </resultMap>
+
+    <!--id表示方法名，parameterType表示输入值类型，useGenerated为true因为这里面id数据库设计是自增-->
+    <insert id="insert" parameterType="Department" useGeneratedKeys="true">
+        insert into department(name,address) values(#{name},#{address})
+      /*#代表的是转义型插入，能防止sql注入*/
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        delete from department where id=#{id}
+    </delete>
+    <update id="update" parameterType="Department">
+        update department set name=#{name},address=#{address} where id=#{id}
+    </update>
+    <select id="selectById" parameterType="Integer" resultMap="resultMap">
+        select * from department where id=#{id}
+    </select>
+    <select id="selectAll" resultMap="resultMap">
+        select * from department
+    </select>
+
+</mapper>
